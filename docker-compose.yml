@@ -17,7 +17,43 @@ services:
       options:
         max-size: "200k"
         max-file: "10"
+        compress: "true"
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  redis_cache:
+    image: redis:8.0.5-alpine
+    restart: unless-stopped
+    command: >
+      redis-server --port $REDIS_PORT 
+      --save 20 1 --loglevel warning 
+      --requirepass $REDIS_PASSWORD
+
+    env_file:
+      - ".env"
+
+    volumes:
+      - cache:/data
+
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 128M
+        reservations:
+          memory: 64M
 
   ##   To enable postgres uncomment the following lines
   #  http://pgconfigurator.cybertec.at/ For Postgres Configuration
@@ -82,7 +118,5 @@ services:
   #    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
 
 
-## Uncomment the following lines if you want to use a volume for the database
-# volumes:
-#  pgdata: { }
-#  cache: { }
+volumes:
+  cache: { }
