@@ -6,11 +6,10 @@ from environs import Env
 
 @dataclass
 class DbConfig:
-    """
-    Database configuration class.
+    """Database configuration class.
     This class holds the settings for the database, such as host, password, port, etc.
 
-    Attributes
+    Attributes:
     ----------
     host : str
         The host where the database server is located.
@@ -32,8 +31,7 @@ class DbConfig:
 
     # For SQLAlchemy
     def construct_sqlalchemy_url(self, driver="asyncpg", host=None, port=None) -> str:
-        """
-        Constructs and returns a SQLAlchemy URL for this database configuration.
+        """Constructs and returns a SQLAlchemy URL for this database configuration.
         """
         # TODO: If you're using SQLAlchemy, move the import to the top of the file!
         from sqlalchemy.engine.url import URL
@@ -54,8 +52,7 @@ class DbConfig:
 
     @staticmethod
     def from_env(env: Env):
-        """
-        Creates the DbConfig object from environment variables.
+        """Creates the DbConfig object from environment variables.
         """
         host = env.str("DB_HOST")
         password = env.str("POSTGRES_PASSWORD")
@@ -69,8 +66,7 @@ class DbConfig:
 
 @dataclass
 class TgBot:
-    """
-    Creates the TgBot object from environment variables.
+    """Creates the TgBot object from environment variables.
     """
 
     token: str
@@ -79,8 +75,7 @@ class TgBot:
 
     @staticmethod
     def from_env(env: Env):
-        """
-        Creates the TgBot object from environment variables.
+        """Creates the TgBot object from environment variables.
         """
         token = env.str("BOT_TOKEN")
         admin_ids = env.list("ADMINS", subcast=int)
@@ -90,10 +85,9 @@ class TgBot:
 
 @dataclass
 class RedisConfig:
-    """
-    Redis configuration class.
+    """Redis configuration class.
 
-    Attributes
+    Attributes:
     ----------
     redis_pass : Optional(str)
         The password used to authenticate with Redis.
@@ -108,8 +102,7 @@ class RedisConfig:
     redis_host: Optional[str]
 
     def dsn(self) -> str:
-        """
-        Constructs and returns a Redis DSN (Data Source Name) for this database configuration.
+        """Constructs and returns a Redis DSN (Data Source Name) for this database configuration.
         """
         if self.redis_pass:
             return f"redis://:{self.redis_pass}@{self.redis_host}:{self.redis_port}/0"
@@ -118,8 +111,7 @@ class RedisConfig:
 
     @staticmethod
     def from_env(env: Env):
-        """
-        Creates the RedisConfig object from environment variables.
+        """Creates the RedisConfig object from environment variables.
         """
         redis_pass = env.str("REDIS_PASSWORD")
         redis_port = env.int("REDIS_PORT")
@@ -132,13 +124,12 @@ class RedisConfig:
 
 @dataclass
 class Miscellaneous:
-    """
-    Miscellaneous configuration class.
+    """Miscellaneous configuration class.
 
     This class holds settings for various other parameters.
     It merely serves as a placeholder for settings that are not part of other categories.
 
-    Attributes
+    Attributes:
     ----------
     other_params : str, optional
         A string used to hold other various parameters as required (default is None).
@@ -149,12 +140,11 @@ class Miscellaneous:
 
 @dataclass
 class Config:
-    """
-    The main configuration class that integrates all the other configuration classes.
+    """The main configuration class that integrates all the other configuration classes.
 
     This class holds the other configuration classes, providing a centralized point of access for all settings.
 
-    Attributes
+    Attributes:
     ----------
     tg_bot : TgBot
         Holds the settings related to the Telegram Bot.
@@ -173,13 +163,11 @@ class Config:
 
 
 def load_config(path: str = None) -> Config:
-    """
-    This function takes an optional file path as input and returns a Config object.
+    """This function takes an optional file path as input and returns a Config object.
     :param path: The path of env file from where to load the configuration variables.
     It reads environment variables from a .env file if provided, else from the process environment.
     :return: Config object with attributes set as per environment variables.
     """
-
     # Create an Env object.
     # The Env object will be used to read environment variables.
     env = Env()

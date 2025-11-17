@@ -14,15 +14,13 @@ class UserRepo(BaseRepo):
         language: str,
         username: Optional[str] = None,
     ):
-        """
-        Creates or updates a new user in the database and returns the user object.
+        """Creates or updates a new user in the database and returns the user object.
         :param user_id: The user's ID.
         :param full_name: The user's full name.
         :param language: The user's language.
         :param username: The user's username. It's an optional parameter.
         :return: User object, None if there was an error while making a transaction.
         """
-
         insert_stmt = (
             insert(User)
             .values(

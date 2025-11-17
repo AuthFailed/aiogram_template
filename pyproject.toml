@@ -1,0 +1,21 @@
+[project]
+name = "aiogram-template"
+version = "0.1.0"
+description = "Aiogram bot template"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiogram>=3.22.0",
+    "aiogram-dialog>=2.4.0",
+    "betterlogging>=1.0.0",
+]
+
+[tool.ruff]
+preview = true
+
+[tool.ruff.lint]
+select = ["D", "E", "F", "I"]
+ignore = ["D417", "E501"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

@@ -8,8 +8,7 @@ from infrastructure.database.setup import create_engine
 
 @dataclass
 class RequestsRepo:
-    """
-    Repository for handling database operations. This class holds all the repositories for the database models.
+    """Repository for handling database operations. This class holds all the repositories for the database models.
 
     You can add more repositories as properties to this class, so they will be easily accessible.
     """
@@ -18,8 +17,7 @@ class RequestsRepo:
 
     @property
     def users(self) -> UserRepo:
-        """
-        The User repository sessions are required to manage user operations.
+        """The User repository sessions are required to manage user operations.
         """
         return UserRepo(self.session)
 
@@ -29,8 +27,7 @@ if __name__ == "__main__":
     from tgbot.config import Config
 
     async def example_usage(config: Config):
-        """
-        Example usage function for the RequestsRepo class.
+        """Example usage function for the RequestsRepo class.
         Use this function as a guide to understand how to utilize RequestsRepo for managing user data.
         Pass the config object to this function for initializing the database resources.
         :param config: The config object loaded from your configuration.

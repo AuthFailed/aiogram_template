@@ -1,15 +1,13 @@
 from typing import Optional
 
-from sqlalchemy import String
-from sqlalchemy import text, BIGINT, Boolean, true
+from sqlalchemy import BIGINT, Boolean, String, text, true
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .base import Base, TimestampMixin, TableNameMixin
+from .base import Base, TableNameMixin, TimestampMixin
 
 
 class User(Base, TimestampMixin, TableNameMixin):
-    """
-    This class represents a User in the application.
+    """This class represents a User in the application.
     If you want to learn more about SQLAlchemy and Alembic, you can check out the following link to my course:
     https://www.udemy.com/course/sqlalchemy-alembic-bootcamp/?referralCode=E9099C5B5109EB747126
 
@@ -30,6 +28,7 @@ class User(Base, TimestampMixin, TableNameMixin):
         Inherits methods from Base, TimestampMixin, and TableNameMixin classes, which provide additional functionality.
 
     """
+
     user_id: Mapped[int] = mapped_column(BIGINT, primary_key=True, autoincrement=False)
     username: Mapped[Optional[str]] = mapped_column(String(128))
     full_name: Mapped[str] = mapped_column(String(128))
